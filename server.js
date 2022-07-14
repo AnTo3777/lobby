@@ -1,7 +1,7 @@
 const express = require('express')
 const path = require('path')
 const http = require('http')
-const PORT = process.env.PORT || 3000
+const PORT = process.env.PORT || 4000
 const socketio = require('socket.io')
 const app = express()
 const server = http.createServer(app)
@@ -17,7 +17,7 @@ let pos_y_2 = -105
 app.use(express.static(path.join(__dirname, "public")))
 
 // Start server
-server.listen(4000)
+server.listen(PORT)
 
 
 // Handle a socket connection request from web client
