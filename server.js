@@ -12,7 +12,7 @@ const io = socketio(server)
 app.use(express.static(path.join(__dirname, "public")))
 
 // Start server
-server.listen(3700)
+server.listen(PORT)
 
 
 
