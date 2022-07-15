@@ -12,6 +12,27 @@ body {
     background-color: #CAC7C7;
 }
 
+
+.log {
+    display: flex;
+    flex-wrap: wrap;
+    position: absolute;
+    margin-left: 2px;
+    margin-top: 2px;
+    border: 1px solid #CAC7C7;
+    height: 120px;
+    width: 110px;
+}
+
+.text {
+    font-size: 0.7rem;
+    position: relative;
+    height: 15px;
+    width: 110px;
+    border: 1px solid #CAC7C7;
+}
+
+
 .player {
     text-align: center;
     font-size: 2rem;
@@ -22,21 +43,18 @@ body {
 
 #p0 {
     background-color: lightblue;
-    top: -5px;
-    left: -60px;
     border: 1px solid black;
+    z-index: -1;
 }
 
 #p1 {
     background-color: lightcoral;
-    top: 50px;
-    left: -60px;
     border: 1px solid black;
+    z-index: -1;
 }
 
 #p2 {
     background-color: lightgreen;
-    top: 105px;
-    left: -60px;
     border: 1px solid black;
+    z-index: -1;
 }
