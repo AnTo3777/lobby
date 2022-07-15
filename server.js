@@ -1,3 +1,4 @@
+// initialization
 const express = require('express')
 const path = require('path')
 const http = require('http')
@@ -6,144 +7,126 @@ const socketio = require('socket.io')
 const app = express()
 const server = http.createServer(app)
 const io = socketio(server)
-let pos_x_0 = 0
-let pos_x_1 = 60
-let pos_x_2 = 120
-let pos_y_0 = 10
-let pos_y_1 = 10
-let pos_y_2 = 10
 
 // Set static folder
 app.use(express.static(path.join(__dirname, "public")))
 
 // Start server
-server.listen(PORT)
+server.listen(3700)
 
 
-// Handle a socket connection request from web client
-const connections = [null, null, null]
-const data_zI = ["-1", "-1", "-1"]
-
-var nb_log = 0
-var data_text = ["", "", "", "", "", "", ""]
 
 
-io.on('connection', socket => {
-    // Assign a number to the player
 
-    // Find an available player number
-    let playerIndex = -1;
+// Variables declaration
+const connectionsArray = [null, null, null, null, null]
+const zIndexArray = ["-1", "-1", "-1", "-1", "-1"]
+let logCount = 0
+var logArray = ["", "", "", "", "", "", ""]
+const positionsAllPlayers = [ [50,50] , [50,50] , [50,50] , [50,50] , [50,50] ]
 
-    for (const i in connections) {
-        if (connections[i] === null) {
-        playerIndex = i
-        break
+
+
+
+
+// Function refresh
+function refreshLog (playerIndex, type) {
+    logCount ++
+    if(logCount > 7){
+        logArray[0] = logArray[1]
+        logArray[1] = logArray[2]
+        logArray[2] = logArray[3]
+        logArray[3] = logArray[4]
+        logArray[4] = logArray[5]
+        logArray[5] = logArray[6]
+        if(type === 'connection'){
+            logArray[6] = `player ${Number(playerIndex) + 1} has connected`
+        } else {
+            logArray[6] = `player ${Number(playerIndex) + 1} disconnected`
         }
-    }
-    connections[playerIndex] = false
-    data_zI[playerIndex] = "1"
-
-
-    // Log
-    nb_log ++
-
-    console.log(nb_log)
-    if(nb_log > 7){
-
-        data_text[0] = data_text[1]
-        data_text[1] = data_text[2]
-        data_text[2] = data_text[3]
-        data_text[3] = data_text[4]
-        data_text[4] = data_text[5]
-        data_text[5] = data_text[6]
-        
-        data_text[6] = `Player ${playerIndex} has connected`
 
     }
     else {
-        deja_modife = false
+        logModification = false
         for(let i=0; i<=7; i++) {
-            if(data_text[i] == "" && deja_modife == false){
-                data_text[i] = `Player ${playerIndex} has connected`
-                 deja_modife = true
-
-                //data_text[i] = `Player ${data_log[0]} ${data_log[1]}`
-                //deja_modife = true
+            if(logArray[i] == "" && logModification == false){
+                if(type === 'connection'){
+                    logArray[i] = `player ${Number(playerIndex) + 1} has connected`
+                } else {
+                    logArray[i] = `player ${Number(playerIndex) + 1} disconnected`
+                }
+                logModification = true
             }
         }
     }
-
-    
-
-    // Tell the connecting client what player number they are
-    socket.emit('player-number', playerIndex)
-    console.log(`Player ${playerIndex} has connected`)
+}
 
 
-    // Handle Diconnect
-    socket.on('disconnect', () => {
-        console.log(`Player ${playerIndex} disconnected`)
-        connections[playerIndex] = null
-        data_zI[playerIndex] = -1
-        if(playerIndex == 0) {
-            pos_x_0 = 0
-            pos_y_0 = 0
-        }
-        if(playerIndex == 1) {
-            pos_x_1 = 0
-            pos_y_1 = 0
-        }
-        if(playerIndex == 2) {
-            pos_x_2 = 0
-            pos_y_2 = 0
-        }
 
-        nb_log ++
-        if(nb_log >= 7){
-        data_text[0] = data_text[1]
-        data_text[1] = data_text[2]
-        data_text[2] = data_text[3]
-        data_text[3] = data_text[4]
-        data_text[4] = data_text[5]
-        data_text[5] = data_text[6]
-        data_text[6] = `Player ${playerIndex} disconnected`
-        }
-        else {
-            deja_modife = false
-            for(let i=0; i<=7; i++) {
-                if(data_text[i] == "" && deja_modife == false){
-                    data_text[i] = `Player ${playerIndex} disconnected`
-                    deja_modife = true
-                }
+
+
+// When connection
+io.on('connection', socket => {
+
+        // Assign a number to the player and display him
+        let playerIndex = -1;
+        for (let i in connectionsArray) {
+            if (connectionsArray[i] === null) {
+            playerIndex = i
+            break
             }
         }
-
-    })
-
-
-    // maj des positions
-    socket.on('position-player', (dataPosition) => {
-        playerNum = dataPosition[2]
-        if(playerNum == 0){
-            pos_x_0 = dataPosition[0]
-            pos_y_0 = dataPosition[1]
+        connectionsArray[playerIndex] = false
+        if(playerIndex >= 0) {
+            zIndexArray[playerIndex] = "1"
         }
-        if(playerNum == 1){
-            pos_x_1 = dataPosition[0]
-            pos_y_1 = dataPosition[1]
+        
+        // Tell the connecting client what player number they are
+        socket.emit('player-number', playerIndex)
+        console.log(`Player ${playerIndex} has connected`)
+
+
+        // Refresh log
+        if(playerIndex >= 0) {
+            refreshLog(playerIndex, 'connection')
         }
-        if(playerNum == 2){
-            pos_x_2 = dataPosition[0]
-            pos_y_2 = dataPosition[1]
-        }
-
-        data = [[data_zI], pos_x_0, pos_x_1, pos_x_2, pos_y_0, pos_y_1, pos_y_2, [data_text]]
-
-        socket.emit('refresh-positions', data)
-
-    })
-
-
 
     
+
+        // When deconnection
+        socket.on('disconnect', () => {
+
+            // Remove the player from the box
+            console.log(`Player ${playerIndex} disconnected`)
+            connectionsArray[playerIndex] = null
+            zIndexArray[playerIndex] = -1
+            for(let i=0 ; i<5 ; i++) {
+                if(i == playerIndex) {
+                    positionsAllPlayers[i][0] = 60
+                    positionsAllPlayers[i][1] = 10
+                }
+            }
+
+            // Refresh log
+            if(pplayerIndex >= 0) {
+                refreshLog(playerIndex, 'deconnection')
+            }
+        })
+    
+    
+        // refresh data 
+        socket.on('position-player', (dataPosition) => {
+            playerNum = dataPosition[2]
+            for(let i=0 ; i<5 ; i++) {
+                if(i == playerNum) {
+                    positionsAllPlayers[i][0] = dataPosition[0]
+                    positionsAllPlayers[i][1] = dataPosition[1]
+                }
+            }
+            data = [positionsAllPlayers, zIndexArray, logArray]
+
+
+            // Send data to all players
+            socket.emit('refresh-positions', data)
+        })
 })

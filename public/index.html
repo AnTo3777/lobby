@@ -7,25 +7,43 @@
         <title>lobby</title>
         <link rel="stylesheet" href="style.css">
         <script src="/socket.io/socket.io.js"></script>
-        <script src="app.js" charset="utf-8"></script>
+        <script src="code.js" charset="utf-8"></script>
     </head>
 
 
     <body>
-        <div class="container">
-            <div class="log">
-                <div class="text" id="t0"></div>
-                <div class="text" id="t1"></div>
-                <div class="text" id="t2"></div>
-                <div class="text" id="t3"></div>
-                <div class="text" id="t4"></div>
-                <div class="text" id="t5"></div>
-                <div class="text" id="t6"></div>
+
+        <div class="box">
+            <div id="server-full">The server is full</div>
+
+            <div class="logContainer">
+                <div class="logDisplay" id="l0"></div>
+                <div class="logDisplay" id="l1"></div>
+                <div class="logDisplay" id="l2"></div>
+                <div class="logDisplay" id="l3"></div>
+                <div class="logDisplay" id="l4"></div>
+                <div class="logDisplay" id="l5"></div>
+                <div class="logDisplay" id="l6"></div>
             </div>
-            <div class="player" id="p0">p0</div>
-            <div class="player" id="p1">p1</div>
-            <div class="player" id="p2">p2</div>
+
+            <div class="players" id="p0">
+                <div class="name">player 1</div>
+            </div>
+            <div class="players" id="p1">
+                <div class="name">player 2</div>
+            </div>
+            <div class="players" id="p2">
+                <div class="name">player 3</div>
+            </div>
+            <div class="players" id="p3">
+                <div class="name">player 4</div>
+            </div>
+            <div class="players" id="p4">
+                <div class="name">player 5</div>
+            </div>
+
         </div>
+
     </body>
 
 

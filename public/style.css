@@ -1,60 +1,103 @@
+/* Setup */
+@font-face {
+    font-family: "game";
+    src: url(./Font/basic.ttf);
+}
+
 body {
-    background-color: #E5E0DF;
+    background-color: #DADADA;
 }
 
-.container {
+.box {
     position: relative;
-    height: 500px;
-    width: 500px;
-    border: 5px solid black;
+    height: 600px;
+    width: 600px;
+    border: 7px solid black;
     margin: auto;
-    margin-top: 100px;
-    background-color: #CAC7C7;
+    background-color: #DADADA;
 }
 
 
-.log {
+
+
+
+/* server-full */
+
+#server-full {
+    position: absolute;
+    margin-top: 220px;
+    font-size: 3rem;
+    font-family: game;
+    text-align: center;
+    z-index: -1;
+}
+
+
+
+/* Log */
+
+.logContainer {
     display: flex;
     flex-wrap: wrap;
     position: absolute;
-    margin-left: 2px;
-    margin-top: 2px;
-    border: 1px solid #CAC7C7;
+    margin-left: 5px;
+    margin-top: 5px;
+    border: 1px solid #DADADA;
     height: 120px;
-    width: 110px;
+    width: 200px;
 }
 
-.text {
-    font-size: 0.7rem;
+.logDisplay {
+    font-size: 0.5rem;
+    font-family: game;
     position: relative;
     height: 15px;
-    width: 110px;
-    border: 1px solid #CAC7C7;
+    width: 200px;
+    border: 1px solid #DADADA;
 }
 
 
-.player {
-    text-align: center;
-    font-size: 2rem;
+
+
+
+/* Players */
+
+.players {
     position: absolute;
     height: 50px;
     width: 50px;
+    border-radius: 50px;
+    border: 3px solid black;
+    z-index: -1;
+    left: 50px;
+    top: 50px;
 }
 
 #p0 {
-    background-color: lightblue;
-    border: 1px solid black;
-    z-index: -1;
+    background-color: #375576;
 }
 
 #p1 {
-    background-color: lightcoral;
-    border: 1px solid black;
-    z-index: -1;
+    background-color: #892644;
 }
 
 #p2 {
-    background-color: lightgreen;
-    border: 1px solid black;
-    z-index: -1;
+    background-color: #396325;
+}
+
+#p3 {
+    background-color: #651351;
+}
+#p4 {
+    background-color: #7D701B;
+}
+
+.name {
+    position: relative;
+    margin-top: -20px;
+    margin-left: -10px;
+    font-size: 0.6rem;
+    font-family: game;
+    text-align: center;
+    width: 80px;
 }
