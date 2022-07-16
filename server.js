@@ -108,7 +108,7 @@ io.on('connection', socket => {
             }
 
             // Refresh log
-            if(pplayerIndex >= 0) {
+            if(playerIndex >= 0) {
                 refreshLog(playerIndex, 'deconnection')
             }
         })
